@@ -65,3 +65,37 @@ x[ -intersect(which(x %% 2 == 1), seq(4,length(x),4))]
 
 
 ### Exercise 3
+
+grades = data.frame(
+  student = c("Alice","Bob","Carol","Dan","Eve","Frank",
+              "Mallory","Oscar","Peggy","Sam","Wendy"),
+  grade   = c(82, 78, 62, 98, 64, 53, 86, 73, 54, 57, 61),
+  year    = c(3L, 2L, 2L, 1L, 3L, 3L, 4L, 3L, 2L, 2L, 1L),
+  stringsAsFactors = FALSE
+)
+
+
+### Add letter grades
+
+
+# BAD - don't hard code
+grades$letter = c("B","C","D","A","D","F","B","C","F","F","D")
+
+# Lookup table - Letter grade
+
+letter_table = c(rep("F",60), rep("D",10), rep("C",10), 
+                 rep("B",10), rep("A",11))
+(grades$letter = letter_table[ as.integer(grades$grade)+1  ])
+
+letter_table_short = c(rep("F",6), "D", "C", "B", "A", "A") 
+(grades$letter = letter_table_short[ as.integer(grades$grade/10) + 1])
+
+
+# Lookup table - Pass fail
+
+passing_table = c(A=TRUE, B=TRUE, C=TRUE, D=FALSE, F=FALSE)
+(grades$passing = passing_table[ grades$letter ])
+
+(grades$passing = grades$letter %in% c("A","B","C"))
+
+(grades$passing = grades$grade >= 70)
