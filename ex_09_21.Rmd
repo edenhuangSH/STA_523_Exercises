@@ -1,0 +1,47 @@
+---
+title: "Sta 523 - ggplot2 Exercises"
+date: "9/21/2016"
+output: html_notebook
+---
+
+### Setup & Load data
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+movies = read.csv("http://www.stat.duke.edu/~cr173/Sta523_Fa16/data/movies/movies.csv", stringsAsFactors = FALSE) %>% tbl_df()
+```
+
+### Exercise 1
+
+```{r}
+names(movies)
+```
+
+
+```{r}
+ggplot(data = movies, aes(x=imdb_num_votes, y=imdb_rating, color=audience_rating)) +
+  geom_point(alpha=0.5) +
+  facet_wrap(~mpaa_rating) + 
+  theme_bw() + 
+  labs(title = "IMDB and RT scores, by MPAA Rating",
+       color = "Audience Rating",
+       x = "IMDB Number of Votes",
+       y = "IMDB rating")
+```
+
+
+### Exercise 2
+
+
+```{r}
+ggplot(data = movies, aes(x=audience_score, y=critics_score)) + 
+  geom_point(aes(color=best_pic_nom)) +
+  facet_wrap(~mpaa_rating) + 
+  theme_bw() + 
+  geom_smooth(method="lm", se=FALSE, color="black", size=0.5, alpha=0.5, fullrange=TRUE) +
+  geom_abline(intercept=0, slope=1, color="blue", alpha=0.5, size=1) +
+  ylim(0,100) +
+  xlim(0,100)
+```
