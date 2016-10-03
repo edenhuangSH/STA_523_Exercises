@@ -1,0 +1,41 @@
+---
+title: "Web Scraping - Pt. 1"
+output: html_notebook
+---
+
+```{r}
+library(rvest)
+library(tibble)
+library(stringr)
+
+url = "http://www.imdb.com/"
+page = read_html(url)
+```
+
+```{r}
+movies = page %>% 
+  html_nodes(".aux-content-widget-2:nth-child(15) .title")
+
+df = data_frame(
+        title = movies %>% html_nodes("a") %>% html_text() %>% str_trim(),
+        box_office = movies %>% 
+                     html_nodes("span") %>% 
+                     html_text() %>%
+                     str_replace("Weekend: \\$","") %>%
+                     str_replace("M","") %>%
+                     as.numeric(), 
+        link = movies %>% 
+               html_nodes("a") %>% 
+               html_attr("href") %>%
+               paste0(url, .)
+)
+```
+
+```{r}
+for(i in seq_along(df$link))
+{
+  new_page = read_html(df$link[i])
+}
+```
+
+
