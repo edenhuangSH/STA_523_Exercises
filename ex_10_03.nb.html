@@ -174,9 +174,17 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShydmVzdClcbmxpYnJhcnkodGliYmxlKVxubGlicmFyeShzdHJpbmdyKVxudXJsID0gXCJodHRwOi8vd3d3LmltZGIuY29tL1wiXG5wYWdlID0gcmVhZF9odG1sKHVybClcbmBgYCJ9 -->
-<pre class="r"><code>library(rvest)
-library(tibble)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShydmVzdClcbmBgYCJ9 -->
+<pre class="r"><code>library(rvest)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZyBtZXNzYWdlczpcbjE6IFVua25vd24gY29sdW1uICdwb3N0ZXInIFxuMjogVW5rbm93biBjb2x1bW4gJ3Bvc3RlcicgXG4zOiBVbmtub3duIGNvbHVtbiAncG9zdGVyJyBcbiJ9 -->
+<pre><code>Warning messages:
+1: Unknown column 'poster' 
+2: Unknown column 'poster' 
+3: Unknown column 'poster' </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWJibGUpXG5saWJyYXJ5KHN0cmluZ3IpXG51cmwgPSBcImh0dHA6Ly93d3cuaW1kYi5jb20vXCJcbnBhZ2UgPSByZWFkX2h0bWwodXJsKVxuYGBgIn0= -->
+<pre class="r"><code>library(tibble)
 library(stringr)
 url = &quot;http://www.imdb.com/&quot;
 page = read_html(url)</code></pre>
@@ -206,17 +214,30 @@ df = data_frame(
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZm9yKGkgaW4gc2VxX2Fsb25nKGRmJGxpbmspKVxue1xuICBuZXdfcGFnZSA9IHJlYWRfaHRtbChkZiRsaW5rW2ldKVxufVxuYGBgIn0= -->
-<pre class="r"><code>for(i in seq_along(df$link))
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYkcG9zdGVyID0gTkFcbmBgYCJ9 -->
+<pre class="r"><code>df$poster = NA</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZyBtZXNzYWdlOlxuVW5rbm93biBjb2x1bW4gJ3Njb3JlJyBcbiJ9 -->
+<pre><code>Warning message:
+Unknown column 'score' </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGYkc2NvcmUgPSBOQVxuZm9yKGkgaW4gc2VxX2Fsb25nKGRmJGxpbmspKVxue1xuICBkZiRwb3N0ZXJbaV0gPSByZWFkX2h0bWwoZGYkbGlua1tpXSkgJT4lIFxuICAgICAgICAgICAgICAgICBodG1sX25vZGVzKFwiI3RpdGxlLW92ZXJ2aWV3LXdpZGdldCBpbWdcIikgJT4lXG4gICAgICAgICAgICAgICAgIC5bMV0gJT4lXG4gICAgICAgICAgICAgICAgIGh0bWxfYXR0cihcInNyY1wiKVxuICBcbiAgZGYkc2NvcmVbaV0gPSBuZXdfcGFnZSAlPiUgaHRtbF9ub2RlcyhcInN0cm9uZyBzcGFuXCIpICU+JSBodG1sX3RleHQoKSAlPiUgYXMubnVtZXJpYygpXG59XG5gYGAifQ== -->
+<pre class="r"><code>df$score = NA
+for(i in seq_along(df$link))
 {
-  new_page = read_html(df$link[i])
+  df$poster[i] = read_html(df$link[i]) %&gt;% 
+                 html_nodes(&quot;#title-overview-widget img&quot;) %&gt;%
+                 .[1] %&gt;%
+                 html_attr(&quot;src&quot;)
+  
+  df$score[i] = new_page %&gt;% html_nodes(&quot;strong span&quot;) %&gt;% html_text() %&gt;% as.numeric()
 }</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiV2ViIFNjcmFwaW5nIC0gUHQuIDEiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCmBgYHtyfQpsaWJyYXJ5KHJ2ZXN0KQpsaWJyYXJ5KHRpYmJsZSkKbGlicmFyeShzdHJpbmdyKQoKdXJsID0gImh0dHA6Ly93d3cuaW1kYi5jb20vIgpwYWdlID0gcmVhZF9odG1sKHVybCkKYGBgCgpgYGB7cn0KbW92aWVzID0gcGFnZSAlPiUgCiAgaHRtbF9ub2RlcygiLmF1eC1jb250ZW50LXdpZGdldC0yOm50aC1jaGlsZCgxNSkgLnRpdGxlIikKCmRmID0gZGF0YV9mcmFtZSgKICAgICAgICB0aXRsZSA9IG1vdmllcyAlPiUgaHRtbF9ub2RlcygiYSIpICU+JSBodG1sX3RleHQoKSAlPiUgc3RyX3RyaW0oKSwKICAgICAgICBib3hfb2ZmaWNlID0gbW92aWVzICU+JSAKICAgICAgICAgICAgICAgICAgICAgaHRtbF9ub2Rlcygic3BhbiIpICU+JSAKICAgICAgICAgICAgICAgICAgICAgaHRtbF90ZXh0KCkgJT4lCiAgICAgICAgICAgICAgICAgICAgIHN0cl9yZXBsYWNlKCJXZWVrZW5kOiBcXCQiLCIiKSAlPiUKICAgICAgICAgICAgICAgICAgICAgc3RyX3JlcGxhY2UoIk0iLCIiKSAlPiUKICAgICAgICAgICAgICAgICAgICAgYXMubnVtZXJpYygpLCAKICAgICAgICBsaW5rID0gbW92aWVzICU+JSAKICAgICAgICAgICAgICAgaHRtbF9ub2RlcygiYSIpICU+JSAKICAgICAgICAgICAgICAgaHRtbF9hdHRyKCJocmVmIikgJT4lCiAgICAgICAgICAgICAgIHBhc3RlMCh1cmwsIC4pCikKYGBgCgpgYGB7cn0KZm9yKGkgaW4gc2VxX2Fsb25nKGRmJGxpbmspKQp7CiAgbmV3X3BhZ2UgPSByZWFkX2h0bWwoZGYkbGlua1tpXSkKfQpgYGAKCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiV2ViIFNjcmFwaW5nIC0gUHQuIDEiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCmBgYHtyfQpsaWJyYXJ5KHJ2ZXN0KQpsaWJyYXJ5KHRpYmJsZSkKbGlicmFyeShzdHJpbmdyKQoKdXJsID0gImh0dHA6Ly93d3cuaW1kYi5jb20vIgpwYWdlID0gcmVhZF9odG1sKHVybCkKYGBgCgpgYGB7cn0KbW92aWVzID0gcGFnZSAlPiUgCiAgaHRtbF9ub2RlcygiLmF1eC1jb250ZW50LXdpZGdldC0yOm50aC1jaGlsZCgxNSkgLnRpdGxlIikKCmRmID0gZGF0YV9mcmFtZSgKICAgICAgICB0aXRsZSA9IG1vdmllcyAlPiUgaHRtbF9ub2RlcygiYSIpICU+JSBodG1sX3RleHQoKSAlPiUgc3RyX3RyaW0oKSwKICAgICAgICBib3hfb2ZmaWNlID0gbW92aWVzICU+JSAKICAgICAgICAgICAgICAgICAgICAgaHRtbF9ub2Rlcygic3BhbiIpICU+JSAKICAgICAgICAgICAgICAgICAgICAgaHRtbF90ZXh0KCkgJT4lCiAgICAgICAgICAgICAgICAgICAgIHN0cl9yZXBsYWNlKCJXZWVrZW5kOiBcXCQiLCIiKSAlPiUKICAgICAgICAgICAgICAgICAgICAgc3RyX3JlcGxhY2UoIk0iLCIiKSAlPiUKICAgICAgICAgICAgICAgICAgICAgYXMubnVtZXJpYygpLCAKICAgICAgICBsaW5rID0gbW92aWVzICU+JSAKICAgICAgICAgICAgICAgaHRtbF9ub2RlcygiYSIpICU+JSAKICAgICAgICAgICAgICAgaHRtbF9hdHRyKCJocmVmIikgJT4lCiAgICAgICAgICAgICAgIHBhc3RlMCh1cmwsIC4pCikKYGBgCgpgYGB7cn0KZGYkcG9zdGVyID0gTkEKZGYkc2NvcmUgPSBOQQoKZm9yKGkgaW4gc2VxX2Fsb25nKGRmJGxpbmspKQp7CiAgbmV3X3BhZ2UgPSByZWFkX2h0bWwoZGYkbGlua1tpXSkKICAKICBkZiRwb3N0ZXJbaV0gPSBuZXdfcGFnZSAlPiUgCiAgICAgICAgICAgICAgICAgaHRtbF9ub2RlcygiI3RpdGxlLW92ZXJ2aWV3LXdpZGdldCBpbWciKSAlPiUKICAgICAgICAgICAgICAgICAuWzFdICU+JQogICAgICAgICAgICAgICAgIGh0bWxfYXR0cigic3JjIikKICAKICBkZiRzY29yZVtpXSA9IG5ld19wYWdlICU+JSBodG1sX25vZGVzKCJzdHJvbmcgc3BhbiIpICU+JSBodG1sX3RleHQoKSAlPiUgYXMubnVtZXJpYygpCn0KCmBgYAoK</div>
 
 
 

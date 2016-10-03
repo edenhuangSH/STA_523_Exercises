@@ -32,10 +32,20 @@ df = data_frame(
 ```
 
 ```{r}
+df$poster = NA
+df$score = NA
+
 for(i in seq_along(df$link))
 {
   new_page = read_html(df$link[i])
+  
+  df$poster[i] = new_page %>% 
+                 html_nodes("#title-overview-widget img") %>%
+                 .[1] %>%
+                 html_attr("src")
+  
+  df$score[i] = new_page %>% html_nodes("strong span") %>% html_text() %>% as.numeric()
 }
-```
 
+```
 
