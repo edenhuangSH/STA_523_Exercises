@@ -13,7 +13,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla viverra justo ut 
 
 Donec vitae aliquet purus. Vestibulum sagittis mauris in sagittis posuere. Nam ullamcorper arcu a justo aliquet congue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit tincidunt quam, non placerat tellus vehicula a. Nam finibus libero turpis, ac egestas diam vehicula suscipit. Praesent egestas velit et neque venenatis, at viverra lacus auctor. Aenean vulputate pellentesque nisi. Nam imperdiet leo quis ex semper interdum. Quisque ligula ipsum, condimentum eu felis ac, finibus lacinia orci. Praesent iaculis commodo eros et vehicula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 
-# Figures
+# Figures and Table
 
 ![](Fig1/fig.png)
 
