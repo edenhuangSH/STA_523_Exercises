@@ -1,0 +1,103 @@
+---
+title: "Simple ABC Examples"
+output: html_notebook
+---
+
+## Widgets example
+
+```{r}
+# Data
+x = 5
+
+# Fixed parameters
+n = 10 
+
+
+# Generative model
+gen_model = function(p)
+{
+  rbinom(length(p), size=n, prob=p)
+}
+
+# Prior draws
+
+#alpha = 1
+#beta = 1
+#prior = rbeta(1e8, shape1 = alpha, shape2 = beta)
+
+prior = rnorm(1e6, 0.25, 0.1)
+prior = prior[prior >= 0 & prior <= 1]
+
+
+# Simulated data
+sim = gen_model(prior)
+
+# Posterior distribution draws
+post = prior[sim == x]
+
+plot(density(post))
+```
+
+
+## Karl Broman's Fruit Snacks
+
+```{r}
+# Data
+bb  = 1
+ras = 3
+str = 8
+org = 1
+
+# Fixed parameters
+n = 13
+
+# Generative model
+gen_model = function(p_bb, p_ras, p_str, p_org)
+{
+  n_bb = rbinom(length(p_bb), n, p_bb)
+  n_ras = rbinom(length(p_ras), n, p_ras)
+  n_str = rbinom(length(p_str), n, p_str)
+  n_org = n - n_bb - n_ras - n_str
+  
+  list(
+    n_bb,
+    n_ras,
+    n_str,
+    n_org
+  )
+}
+
+# Prior draws
+
+prior_bb = rbeta(1e6, 10, 90)
+prior_ras = rbeta(1e6, 20, 80)
+prior_str = rbeta(1e6, 60, 40)
+prior_org = 1 - prior_bb - prior_ras - prior_str
+
+sum_prior = prior_bb+prior_ras+prior_str+prior_org
+
+prior_bb = prior_bb[sum_prior == 1]
+prior_ras = prior_ras[sum_prior == 1]
+prior_str = prior_str[sum_prior == 1]
+prior_org = prior_org[sum_prior == 1]
+
+sum_prior2 = prior_bb+prior_ras+prior_str+prior_org
+
+# Simulated data
+sim = gen_model(prior_bb, prior_ras, prior_str, prior_org)
+
+sim_mat = unlist(sim) %>% matrix(ncol=4)
+
+post_sub = apply(sim_mat, 1, function(r) r[1] == bb & r[2] == ras & r[3] == str & r[4] == org)
+
+
+# Posterior distribution draws
+post_draw_bb = prior_bb[post_sub]
+post_draw_ras = prior_ras[post_sub]
+post_draw_str = prior_str[post_sub]
+post_draw_org = prior_org[post_sub]
+
+plot(density(post_draw_bb))
+```
+
+
