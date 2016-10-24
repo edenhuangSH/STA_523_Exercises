@@ -32,7 +32,12 @@ shinyApp(
       textOutput("messages")
     )
   ),
-  server = function(input, output) {
+  server = function(input, output, session) 
+  {
+    observe({
+      updateSliderInput(session, inputId = "n_recap_marked", max = input$n_marked)
+    })
+    
     
     prior_samps = reactive(
     {
