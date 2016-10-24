@@ -1,9 +1,3 @@
----
-title: "R Notebook"
-output: html_notebook
----
-
-```{r}
 library(shiny)
 
 
@@ -75,7 +69,7 @@ shinyApp(
       sim_data = sapply(prior_samps(), gen_model)
     })
       
-    
+    ?updateSelectInput
     post_draws = reactive(
     {
       prior_samps()[ sim_data() == input$n_recap_marked ]
@@ -92,8 +86,6 @@ shinyApp(
         lines(n, dpois(n,lambda = input$pois_lambda),col='red')
       }    
     })
-  }
+  },
+  options = list(width = 1000)
 )
-
-
-```
