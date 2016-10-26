@@ -23,6 +23,20 @@ system.time({
   }
 })
 
+
+system.time({
+  res = lapply(
+    1:ncol(res),
+    function(i)
+    {
+      bootstrap_samp = d %>% select(x,y) %>% sample_n(nrow(d), replace=TRUE)
+      predict(loess(y ~ x, data=bootstrap_samp), newdata=d)
+    }
+  ) %>% do.call(cbind, .)
+})
+
+
+
 system.time({
   registerDoMC(cores=4)
   res = foreach(i = 1:ncol(res), .combine = "cbind") %dopar% 
