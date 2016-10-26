@@ -1,7 +1,7 @@
 library(shiny)
 
 
-shinyApp(
+app = shinyApp(
   ui = fluidPage(
     titlePanel("Capture-Mark-Recapture"),
     sidebarPanel(
@@ -94,3 +94,6 @@ shinyApp(
   },
   options = list(width = 1000)
 )
+
+runApp(app)
+
